@@ -1,7 +1,13 @@
 {
   "colors": {
-    "backgroundColor": "#3f62ae",
-    "textColor": "#ffffff"
+    "backgroundColor": "#010101",
+    "textColor": "#ffffff",
+    "playButtonTextColor": "#FFFFFF",
+    "playButtonColor": "#2B45CE",
+    "scoreColor": "#FFFFFF",
+    "highscoreColor": "#FFBC18",
+    "waveColor": "#FF6918",
+    "titleColor": "#FF6918"
   },
   "@@editor": [
     {
@@ -11,14 +17,41 @@
       "source": "colors.json",
       "fields": [
         {
-          "key": "textColor",
-          "name": "Text color",
+          "key": "backgroundColor",
+          "name": "Background color",
+          "type": "color"
+        },
+        {
+          "key": "titleColor",
+          "name": "Game Title Color",
+          "type": "color"
+        },
+        {
+          "key": "scoreColor",
+          "name": "Score color",
           "description": "Default color for text",
           "type": "color"
         },
         {
-          "key": "backgroundColor",
-          "name": "Background color",
+          "key": "waveColor",
+          "name": "Wave Announcement Color",
+          "description": "Default color for text",
+          "type": "color"
+        },
+        {
+          "key": "highscoreColor",
+          "name": "High Score color",
+          "description": "Default color for text",
+          "type": "color"
+        },
+        {
+          "key": "playButtonTextColor",
+          "name": "Play Button Text Color",
+          "type": "color"
+        },
+        {
+          "key": "playButtonColor",
+          "name": "Play Button Color",
           "type": "color"
         }
       ]

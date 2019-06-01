@@ -1,6 +1,22 @@
 {
   "images": {
-    "mouse": "https://images.koji-cdn.com/76a58d18-9031-4cf9-871c-b4701b0e2537/f4864534-ede5-40e9-ac53-a81df8a25d77.png"
+    "mouse": "https://images.koji-cdn.com/76a58d18-9031-4cf9-871c-b4701b0e2537/f4864534-ede5-40e9-ac53-a81df8a25d77.png",
+    "soundImage": "https://i.imgur.com/rtFppa8.png",
+    "muteImage": "https://i.imgur.com/AR7C733.png",
+    "ship": "https://i.imgur.com/RmJBgF1.png",
+    "enemy1": "https://i.imgur.com/yrBIZni.png",
+    "enemy2": "https://i.imgur.com/caeq7J8.png",
+    "enemy3": "https://i.imgur.com/xUxOebV.png",
+    "playerProjectile": "https://i.imgur.com/Mcaer4U.png",
+    "enemyProjectile": "https://i.imgur.com/1AcoojX.png",
+    "lifeIcon": "https://i.imgur.com/RmJBgF1.png",
+    "explosion": "https://i.imgur.com/Ly8sF2i.png",
+    "enemyExplosion": "https://i.imgur.com/sipJ9BG.png",
+    "boss": "https://i.imgur.com/xnVGTIi.png",
+    "enemyExplosion1": "https://i.imgur.com/43n8VAY.png",
+    "enemyExplosion3": "https://i.imgur.com/8bCblgG.png",
+    "enemyExplosion2": "https://i.imgur.com/fInp99N.png",
+    "enemyExplosionBoss": "https://i.imgur.com/Sl63d46.png"
   },
   "@@editor": [
     {
@@ -10,9 +26,93 @@
       "source": "images.json",
       "fields": [
         {
-          "key": "mouse",
-          "name": "Icon",
-          "description": "Icon that spins on the page",
+          "key": "ship",
+          "name": "Ship",
+          "description": "Player controlled ship",
+          "type": "image"
+        },
+        {
+          "key": "enemy1",
+          "name": "Enemy 1",
+          "description": "Enemy 1",
+          "type": "image"
+        },
+        {
+          "key": "enemy2",
+          "name": "Enemy 2",
+          "description": "Enemy 2",
+          "type": "image"
+        },
+        {
+          "key": "enemy3",
+          "name": "Enemy 3",
+          "description": "Enemy 3",
+          "type": "image"
+        },
+        {
+          "key": "boss",
+          "name": "Boss",
+          "description": "Boss",
+          "type": "image"
+        },
+        {
+          "key": "playerProjectile",
+          "name": "Player Projectile",
+          "description": "Enemy 3",
+          "type": "image"
+        },
+        {
+          "key": "enemyProjectile",
+          "name": "Enemy Projectile",
+          "description": "Enemy 3",
+          "type": "image"
+        },
+        {
+          "key": "explosion",
+          "name": "Explosion",
+          "description": "Explosion when a laser hits the player",
+          "type": "image"
+        },
+        {
+          "key": "enemyExplosion1",
+          "name": "Enemy explosion",
+          "description": "Explosion when an enemy dies",
+          "type": "image"
+        },
+        {
+          "key": "enemyExplosion2",
+          "name": "Enemy explosion",
+          "description": "Explosion when an enemy dies",
+          "type": "image"
+        },
+        {
+          "key": "enemyExplosion3",
+          "name": "Enemy explosion",
+          "description": "Explosion when an enemy dies",
+          "type": "image"
+        },
+        {
+          "key": "enemyExplosionBoss",
+          "name": "Enemy explosion",
+          "description": "Explosion when an enemy dies",
+          "type": "image"
+        },
+        {
+          "key": "lifeIcon",
+          "name": "Life Icon",
+          "description": "Life Icon",
+          "type": "image"
+        },
+        {
+          "key": "soundImage",
+          "name": "Sound Icon",
+          "description": "Sound Icon",
+          "type": "image"
+        },
+        {
+          "key": "muteImage",
+          "name": "Mute Icon",
+          "description": "Mute Icon",
           "type": "image"
         }
       ]

@@ -1,0 +1,56 @@
+{
+  "sounds": {
+    "music": "https://objects.koji-cdn.com/c1d30eca-f183-4d89-9336-88f2926a9b27/music.mp3",
+    "foodSound": "https://objects.koji-cdn.com/cfec79c9-5d0e-466f-8958-01debd24b664/food.wav",
+    "lifeSound": "https://objects.koji-cdn.com/cfec79c9-5d0e-466f-8958-01debd24b664/life.wav",
+    "edibleSound": "https://objects.koji-cdn.com/cfec79c9-5d0e-466f-8958-01debd24b664/edible.wav",
+    "dangerSound": "https://objects.koji-cdn.com/cfec79c9-5d0e-466f-8958-01debd24b664/lose.wav",
+    "music2": "https://objects.koji-cdn.com/cfec79c9-5d0e-466f-8958-01debd24b664/LunarMothbyLocomule.mp3",
+    "moveSound": "https://objects.koji-cdn.com/cfec79c9-5d0e-466f-8958-01debd24b664/move.wav",
+    "laserSound": "https://objects.koji-cdn.com/c1d30eca-f183-4d89-9336-88f2926a9b27/laser.wav",
+    "loseLifeSound": "https://objects.koji-cdn.com/c1d30eca-f183-4d89-9336-88f2926a9b27/loselife.wav",
+    "loseGameSound": "https://objects.koji-cdn.com/c1d30eca-f183-4d89-9336-88f2926a9b27/losegame.wav",
+    "splatSound": "https://objects.koji-cdn.com/c1d30eca-f183-4d89-9336-88f2926a9b27/splat.wav",
+    "wavePass": "https://objects.koji-cdn.com/c1d30eca-f183-4d89-9336-88f2926a9b27/wavepass.wav"
+  },
+  "@@editor": [
+    {
+      "key": "sounds",
+      "name": "Sounds",
+      "icon": "🔊️",
+      "source": "sounds.json",
+      "fields": [
+        {
+          "key": "music",
+          "name": "Background Music",
+          "description": "Get the atmosphere going!",
+          "type": "sound"
+        },
+        {
+          "key": "laserSound",
+          "name": "Laser Sound",
+          "description": "Played when you eat basic food",
+          "type": "sound"
+        },
+        {
+          "key": "loseGameSound",
+          "name": "Lose Game Sound",
+          "description": "Played when you collect a life",
+          "type": "sound"
+        },
+        {
+          "key": "splatSound",
+          "name": "Splat Sound",
+          "description": "Played when you become able to eat ghosts after eating the right food",
+          "type": "sound"
+        },
+        {
+          "key": "wavePass",
+          "name": "Wave Pass Sound",
+          "description": "Played when you lose a life",
+          "type": "sound"
+        }
+      ]
+    }
+  ]
+}

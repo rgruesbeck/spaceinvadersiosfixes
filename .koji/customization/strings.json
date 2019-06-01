@@ -1,18 +1,196 @@
 {
   "strings": {
-    "content": "Koji P5 Scaffold"
+    "content": "Koji P5 Scaffold",
+    "fontFamily": "https://fonts.googleapis.com/css?family=Righteous",
+    "title": "Space Invaders",
+    "instructions1": "Move - ARROW KEYS or touch",
+    "instructions2": "Shoot - SPACE or touch",
+    "instructions3": "Don't get hit!",
+    "gameOverText": "GAME OVER",
+    "highScoreText": "High Score:",
+    "playButtonText": "PLAY",
+    "scoreText": "Score:",
+    "highscoreText": "High Score:",
+    "highscoreGainedText": "New High Score!",
+    "waveText": "Wave",
+    "bossWaveText": "BOSS",
+    "scoreGain1": "10",
+    "scoreGain2": "20",
+    "scoreGain3": "30",
+    "scoreGainBoss": "150",
+    "scoreGainModifier": "10",
+    "enemyRows": "4",
+    "maxEnemyRows": "12",
+    "tierTwoStart": "3",
+    "tierThreeStart": "5",
+    "starCount": "100",
+    "enemyFireChance": "6",
+    "lives": "3",
+    "maxLives": "6",
+    "bossWave": "3"
   },
   "@@editor": [
     {
       "key": "strings",
-      "name": "Strings",
+      "name": "Game Settings",
       "icon": "📚",
       "source": "strings.json",
       "fields": [
         {
-          "key": "content",
-          "name": "Page Content",
-          "description": "The text that is displayed on the page",
+          "key": "title",
+          "name": "Game Title",
+          "description": "The title that is displayed in the start menu",
+          "type": "text"
+        },
+        {
+          "key": "instructions1",
+          "name": "Game Instructions 1",
+          "type": "text"
+        },
+        {
+          "key": "instructions2",
+          "name": "Game Instructions 2",
+          "type": "text"
+        },
+        {
+          "key": "instructions3",
+          "name": "Game Instructions 3",
+          "type": "text"
+        },
+        {
+          "key": "gameOverText",
+          "name": "Game Over Text",
+          "type": "text"
+        },
+        {
+          "key": "highScoreText",
+          "name": "High Score Text",
+          "type": "text"
+        },
+        {
+          "key": "fontFamily",
+          "name": "Font Family",
+          "description": "Google fonts link to font to use in the game",
+          "type": "text"
+        },
+        {
+          "key": "playButtonText",
+          "name": "Play Button Text",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "scoreText",
+          "name": "Score Text",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "highscoreText",
+          "name": "High Score Text",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "highscoreGainedText",
+          "name": "High Score Gained Text",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "waveText",
+          "name": "Wave Text",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "bossWaveText",
+          "name": "Boss Wave Text",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "bossWave",
+          "name": "Boss Wave",
+          "description": "After every X waves, the boss will appear",
+          "type": "text"
+        },
+        {
+          "key": "scoreGain1",
+          "name": "Score Gain 1",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "scoreGain2",
+          "name": "Score Gain 2",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "scoreGain3",
+          "name": "Score Gain 3",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "scoreGainBoss",
+          "name": "Score Gain Bosss",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "scoreGainModifier",
+          "name": "Score Gain Modifier",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "enemyRows",
+          "name": "Starting Enemy Rows",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "maxEnemyRows",
+          "name": "Maximum Enemy Rows",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "tierTwoStart",
+          "name": "Tier 2 Start",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "tierThreeStart",
+          "name": "Tier 3 Start",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "starCount",
+          "name": "Stars Count",
+          "description": "Label on the Play Button",
+          "type": "text"
+        },
+        {
+          "key": "enemyFireChance",
+          "name": "Enemy Fire Frequency",
+          "description": "How often will enemies fire. Default: 6",
+          "type": "text"
+        },
+        {
+          "key": "lives",
+          "name": "Starting Lives",
+          "description": "How often will enemies fire. Default: 6",
+          "type": "text"
+        },
+        {
+          "key": "maxLives",
+          "name": "Maximum Lives",
+          "description": "How often will enemies fire. Default: 6",
           "type": "text"
         }
       ]
