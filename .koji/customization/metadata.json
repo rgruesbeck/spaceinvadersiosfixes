@@ -2,7 +2,7 @@
   "metadata": {
     "name": "Space Invaders",
     "short_name": "Space Invaders",
-    "description": "A React scaffold modified specifically for Koji. Easily customizable at gokoji.com.",
+    "description": "A classic Space Invaders game, easily customizable at gokoji.com.",
     "image": "https://i.imgur.com/WRNtdEe.png",
     "icon": "https://i.imgur.com/pZOUUPs.png",
     "icon192": "https://i.imgur.com/YIfAOJY.png",
