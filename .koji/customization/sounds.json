@@ -11,7 +11,8 @@
     "loseLifeSound": "https://objects.koji-cdn.com/c1d30eca-f183-4d89-9336-88f2926a9b27/loselife.wav",
     "loseGameSound": "https://objects.koji-cdn.com/c1d30eca-f183-4d89-9336-88f2926a9b27/losegame.wav",
     "splatSound": "https://objects.koji-cdn.com/c1d30eca-f183-4d89-9336-88f2926a9b27/splat.wav",
-    "wavePass": "https://objects.koji-cdn.com/c1d30eca-f183-4d89-9336-88f2926a9b27/wavepass.wav"
+    "wavePass": "https://objects.koji-cdn.com/c1d30eca-f183-4d89-9336-88f2926a9b27/wavepass.wav",
+    "wavePassSound": "https://objects.koji-cdn.com/c1d30eca-f183-4d89-9336-88f2926a9b27/wavepass.wav"
   },
   "@@editor": [
     {
@@ -45,7 +46,7 @@
           "type": "sound"
         },
         {
-          "key": "wavePass",
+          "key": "wavePassSound",
           "name": "Wave Pass Sound",
           "description": "Played when you pass a wave",
           "type": "sound"

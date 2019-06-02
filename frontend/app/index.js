@@ -198,7 +198,7 @@ function setup() {
 
     spawnStarStart();
 
-    //playMusic();
+    playMusic();
 
 
 }
