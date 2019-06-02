@@ -29,25 +29,25 @@
         {
           "key": "laserSound",
           "name": "Laser Sound",
-          "description": "Played when you eat basic food",
+          "description": "Played when you shoot a laser",
           "type": "sound"
         },
         {
           "key": "loseGameSound",
           "name": "Lose Game Sound",
-          "description": "Played when you collect a life",
+          "description": "Played when you lose a life",
           "type": "sound"
         },
         {
           "key": "splatSound",
           "name": "Splat Sound",
-          "description": "Played when you become able to eat ghosts after eating the right food",
+          "description": "Played when an enemy dies",
           "type": "sound"
         },
         {
           "key": "wavePass",
           "name": "Wave Pass Sound",
-          "description": "Played when you lose a life",
+          "description": "Played when you pass a wave",
           "type": "sound"
         }
       ]

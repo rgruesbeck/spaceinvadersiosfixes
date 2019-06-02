@@ -7,7 +7,8 @@
     "scoreColor": "#FFFFFF",
     "highscoreColor": "#FFBC18",
     "waveColor": "#FF6918",
-    "titleColor": "#FF6918"
+    "titleColor": "#FF6918",
+    "instructionsColor": "#FFBC18"
   },
   "@@editor": [
     {
@@ -27,21 +28,23 @@
           "type": "color"
         },
         {
+          "key": "instructionsColor",
+          "name": "Game Instructions Color",
+          "type": "color"
+        },
+        {
           "key": "scoreColor",
           "name": "Score color",
-          "description": "Default color for text",
           "type": "color"
         },
         {
           "key": "waveColor",
           "name": "Wave Announcement Color",
-          "description": "Default color for text",
           "type": "color"
         },
         {
           "key": "highscoreColor",
           "name": "High Score color",
-          "description": "Default color for text",
           "type": "color"
         },
         {

@@ -10,7 +10,7 @@
     "playerProjectile": "https://i.imgur.com/Mcaer4U.png",
     "enemyProjectile": "https://i.imgur.com/1AcoojX.png",
     "lifeIcon": "https://i.imgur.com/RmJBgF1.png",
-    "explosion": "https://i.imgur.com/Ly8sF2i.png",
+    "explosion": "https://i.imgur.com/Jspxazp.png",
     "enemyExplosion": "https://i.imgur.com/sipJ9BG.png",
     "boss": "https://i.imgur.com/xnVGTIi.png",
     "enemyExplosion1": "https://i.imgur.com/43n8VAY.png",
@@ -28,91 +28,91 @@
         {
           "key": "ship",
           "name": "Ship",
-          "description": "Player controlled ship",
+          "description": "Player controlled ship. Ideal size: 96x96",
           "type": "image"
         },
         {
           "key": "enemy1",
           "name": "Enemy 1",
-          "description": "Enemy 1",
+          "description": "Type 0. Ideal size: 96x96",
           "type": "image"
         },
         {
           "key": "enemy2",
           "name": "Enemy 2",
-          "description": "Enemy 2",
+          "description": "Type 1. Ideal size: 96x96",
           "type": "image"
         },
         {
           "key": "enemy3",
           "name": "Enemy 3",
-          "description": "Enemy 3",
+          "description": "Type 2. Ideal size: 96x96",
           "type": "image"
         },
         {
           "key": "boss",
           "name": "Boss",
-          "description": "Boss",
+          "description": "Type 3. Ten times bigger than an ordinary enemy. Ideal size: 960x960",
           "type": "image"
         },
         {
           "key": "playerProjectile",
           "name": "Player Projectile",
-          "description": "Enemy 3",
+          "description": "Shot by player. Ideal size: 24x64",
           "type": "image"
         },
         {
           "key": "enemyProjectile",
           "name": "Enemy Projectile",
-          "description": "Enemy 3",
+          "description": "Shot by enemies. Ideal size: 24x64",
           "type": "image"
         },
         {
           "key": "explosion",
           "name": "Explosion",
-          "description": "Explosion when a laser hits the player",
+          "description": "Explosion when an enemy projectile hits the player. Ideal size: 96x96",
           "type": "image"
         },
         {
           "key": "enemyExplosion1",
-          "name": "Enemy explosion",
-          "description": "Explosion when an enemy dies",
+          "name": "Enemy 1 explosion",
+          "description": "Explosion when an enemy dies. Ideal size: 96x96",
           "type": "image"
         },
         {
           "key": "enemyExplosion2",
-          "name": "Enemy explosion",
-          "description": "Explosion when an enemy dies",
+          "name": "Enemy 2 explosion",
+          "description": "Explosion when an enemy dies. Ideal size: 96x96",
           "type": "image"
         },
         {
           "key": "enemyExplosion3",
-          "name": "Enemy explosion",
-          "description": "Explosion when an enemy dies",
+          "name": "Enemy 3 explosion",
+          "description": "Explosion when an enemy dies. Ideal size: 96x96",
           "type": "image"
         },
         {
           "key": "enemyExplosionBoss",
-          "name": "Enemy explosion",
-          "description": "Explosion when an enemy dies",
+          "name": "Boss explosion",
+          "description": "Explosion when a boss dies. Ten times bigger. Ideal size: 960x960",
           "type": "image"
         },
         {
           "key": "lifeIcon",
           "name": "Life Icon",
-          "description": "Life Icon",
+          "description": "An icon representing one player life. Ideal size: 96x96",
           "type": "image"
         },
         {
           "key": "soundImage",
           "name": "Sound Icon",
-          "description": "Sound Icon",
+          "description": "Ideal size: 32x32",
           "type": "image"
         },
         {
           "key": "muteImage",
           "name": "Mute Icon",
-          "description": "Mute Icon",
+          "description": "Ideal size: 32x32",
           "type": "image"
         }
       ]

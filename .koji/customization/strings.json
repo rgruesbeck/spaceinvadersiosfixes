@@ -3,8 +3,8 @@
     "content": "Koji P5 Scaffold",
     "fontFamily": "https://fonts.googleapis.com/css?family=Righteous",
     "title": "Space Invaders",
-    "instructions1": "Move - ARROW KEYS or touch",
-    "instructions2": "Shoot - SPACE or touch",
+    "instructions1": "Move - ARROW KEYS or Touch",
+    "instructions2": "Shoot - SPACE or Touch",
     "instructions3": "Don't get hit!",
     "gameOverText": "GAME OVER",
     "highScoreText": "High Score:",
@@ -27,7 +27,7 @@
     "enemyFireChance": "6",
     "lives": "3",
     "maxLives": "6",
-    "bossWave": "3"
+    "bossWave": "4"
   },
   "@@editor": [
     {
@@ -82,31 +82,31 @@
         {
           "key": "scoreText",
           "name": "Score Text",
-          "description": "Label on the Play Button",
+          "description": "Default: 'Score:'",
           "type": "text"
         },
         {
           "key": "highscoreText",
           "name": "High Score Text",
-          "description": "Label on the Play Button",
+          "description": "Default: 'High Score:'",
           "type": "text"
         },
         {
           "key": "highscoreGainedText",
           "name": "High Score Gained Text",
-          "description": "Label on the Play Button",
+          "description": "When you get a new high score",
           "type": "text"
         },
         {
           "key": "waveText",
           "name": "Wave Text",
-          "description": "Label on the Play Button",
+          "description": "Default: 'Wave'",
           "type": "text"
         },
         {
           "key": "bossWaveText",
           "name": "Boss Wave Text",
-          "description": "Label on the Play Button",
+          "description": "When the wave is a boss wave",
           "type": "text"
         },
         {
@@ -118,79 +118,79 @@
         {
           "key": "scoreGain1",
           "name": "Score Gain 1",
-          "description": "Label on the Play Button",
+          "description": "How much score you get from TYPE 1 enemy",
           "type": "text"
         },
         {
           "key": "scoreGain2",
           "name": "Score Gain 2",
-          "description": "Label on the Play Button",
+          "description": "How much score you get from TYPE 2 enemy",
           "type": "text"
         },
         {
           "key": "scoreGain3",
           "name": "Score Gain 3",
-          "description": "Label on the Play Button",
+          "description": "How much score you get from TYPE 3 enemy",
           "type": "text"
         },
         {
           "key": "scoreGainBoss",
           "name": "Score Gain Bosss",
-          "description": "Label on the Play Button",
+          "description": "How much score you get from BOSS",
           "type": "text"
         },
         {
           "key": "scoreGainModifier",
           "name": "Score Gain Modifier",
-          "description": "Label on the Play Button",
+          "description": "How much the score gain will increase after each wave (in percentage)",
           "type": "text"
         },
         {
           "key": "enemyRows",
           "name": "Starting Enemy Rows",
-          "description": "Label on the Play Button",
+          "description": "How many rows of enemies will there be in the first wave",
           "type": "text"
         },
         {
           "key": "maxEnemyRows",
           "name": "Maximum Enemy Rows",
-          "description": "Label on the Play Button",
+          "description": "How many rows can there be max",
           "type": "text"
         },
         {
           "key": "tierTwoStart",
           "name": "Tier 2 Start",
-          "description": "Label on the Play Button",
+          "description": "At what row does the TYPE 2 enemy start (from bottom up)",
           "type": "text"
         },
         {
           "key": "tierThreeStart",
           "name": "Tier 3 Start",
-          "description": "Label on the Play Button",
+          "description": "At what row does the TYPE 3 enemy start (from bottom up)",
           "type": "text"
         },
         {
           "key": "starCount",
           "name": "Stars Count",
-          "description": "Label on the Play Button",
+          "description": "How many stars in the background",
           "type": "text"
         },
         {
           "key": "enemyFireChance",
           "name": "Enemy Fire Frequency",
-          "description": "How often will enemies fire. Default: 6",
+          "description": "How often will enemies fire. Bigger number for more frequency. Default: 6",
           "type": "text"
         },
         {
           "key": "lives",
           "name": "Starting Lives",
-          "description": "How often will enemies fire. Default: 6",
+          "description": "How many lives you have at the beginning.",
           "type": "text"
         },
         {
           "key": "maxLives",
           "name": "Maximum Lives",
-          "description": "How often will enemies fire. Default: 6",
+          "description": "How many lives can you have at max.",
           "type": "text"
         }
       ]

@@ -3,15 +3,17 @@ let myFont;
 let gameOver = false;
 let gameBeginning = true;
 
+//===Game objects
 let ship;
 
 let enemies = [];
 let lasers = [];
 let stars = [];
 let explosions = [];
-
 let waveAnnouncer;
 
+
+//===Images
 let imgShip;
 let imgEnemy = [];
 let imgLaserPlayer;
@@ -26,7 +28,6 @@ let playButton;
 let soundButton;
 
 
-let objSize; //base size of all objects, calculated based on screen size
 
 
 //===Score data
@@ -41,22 +42,22 @@ let scoreGainBoss;
 
 let scoreGainModifier; //how much will all score gain be increased after each boss fight (in percentage)
 
-
+//===Data taken from Game Settings
 let startingLives;
 let lives;
 let maxLives;
 
+let startingEnemyRows;
 let enemyRows;
 let maxEnemyRows;
 let tierTwoStart;
 let tierThreeStart;
 
-let fireCooldown = 0.2;
-
 let starCount;
 
 let enemyFireChance;
 
+//===Audio
 let backgroundMusic;
 let sndLaser;
 let sndLoseGame;
@@ -69,24 +70,34 @@ let canMute = true;
 let soundImage;
 let muteImage;
 
-let arenaSize = 15; //game size in tiles
+
+let objSize; //base size of all objects, calculated based on screen size
+let arenaSize = 15; //game size in tiles, using bigger numbers will decrease individual object sizes but allow more objects to fit the screen
 let enemyOccupancy = 0.8; //how much of the screen will enemies occupy
 
+//===Touch stuff
 let touchStartX = 0;
 let touching = false;
 
-let enemiesVelocity = 0;
-let enemiesDesiredVelocity = 0;
+//===Enemy info
+let enemiesVelocity = 0; //made it public because all enemies will use the same velocity
+let enemiesDesiredVelocity = 0; //used for smoothing
 let enemiesMaxSpeed;
 
 let shipY;
+let fireCooldown = 0.2;
 
+
+//===Wave stuff
 let waveCount = 0;
 let waveDelay = 1000; //in Miliseconds
 let nextWaveReady = false;
 let bossWave;
 
+
+//===Load this before starting the game
 function preload() {
+    //===Load font from google fonts link provided in game settings
     var link = document.createElement('link');
     link.href = Koji.config.strings.fontFamily;
     link.rel = 'stylesheet';
@@ -96,7 +107,7 @@ function preload() {
     let newStr = myFont.replace("+", " ");
     myFont = newStr;
 
-
+    //===Load images
     soundImage = loadImage(Koji.config.images.soundImage);
     muteImage = loadImage(Koji.config.images.muteImage);
 
@@ -114,13 +125,14 @@ function preload() {
     imgEnemyExplosion[2] = loadImage(Koji.config.images.enemyExplosion3);
     imgEnemyExplosion[3] = loadImage(Koji.config.images.enemyExplosionBoss);
 
+    //===Load Sounds
     sndLaser = Koji.config.sounds.laserSound;
     sndLoseGame = Koji.config.sounds.loseGameSound;
     sndSplat = Koji.config.sounds.splatSound;
     sndWavePass = Koji.config.sounds.wavePassSound;
-    
 
 
+    //===Load settings
     scoreGain1 = parseInt(Koji.config.strings.scoreGain1);
     scoreGain2 = parseInt(Koji.config.strings.scoreGain2);
     scoreGain3 = parseInt(Koji.config.strings.scoreGain3);
@@ -128,7 +140,8 @@ function preload() {
     scoreGainModifier = parseInt(Koji.config.strings.scoreGainModifier);
 
 
-    enemyRows = parseInt(Koji.config.strings.enemyRows);
+    startingEnemyRows = parseInt(Koji.config.strings.enemyRows);
+    enemyRows = startingEnemyRows;
     maxEnemyRows = parseInt(Koji.config.strings.maxEnemyRows);
     tierTwoStart = parseInt(Koji.config.strings.tierTwoStart);
     tierThreeStart = parseInt(Koji.config.strings.tierThreeStart);
@@ -137,7 +150,7 @@ function preload() {
     startingLives = parseInt(Koji.config.strings.lives);
     maxLives = parseInt(Koji.config.strings.maxLives);
     lives = startingLives;
-    
+
     bossWave = parseInt(Koji.config.strings.bossWave);
 
 }
@@ -153,16 +166,14 @@ function setup() {
         sizeModifier = 1;
     }
 
-        createCanvas(width, height);
-
+    createCanvas(width, height);
 
     //===Determine basic object size depending on size of the screen
     objSize = floor(min(floor(width / arenaSize), floor(height / arenaSize)) * sizeModifier);
 
+
     enemiesMaxSpeed = objSize / 80;
     shipY = height * 0.8;
-
-
 
 
     //===Get high score data from local storage
@@ -172,14 +183,14 @@ function setup() {
 
     textFont(myFont); //set our font
 
-
     playButton = new PlayButton();
     soundButton = new SoundButton();
 
     gameBeginning = true;
 
-
+    //===start moving enemies left and right
     setEnemyVelocity(enemiesMaxSpeed);
+
 
     ship = new Ship();
 
@@ -187,21 +198,23 @@ function setup() {
 
     spawnStarStart();
 
-    playMusic();
+    //playMusic();
 
 
 }
 
+//===Main game loop
 function draw() {
     // set the background color from the configuration options
     background(Koji.config.colors.backgroundColor);
 
+
+    //===Update background stars
     for (let i = 0; i < stars.length; i++) {
         stars[i].update();
         stars[i].render();
 
-        if(stars[i].pos.y > height && stars[i].timer > 2){
-            // stars.splice(i, 1);
+        if (stars[i].pos.y > height && stars[i].timer > 2) {
             stars[i].pos.y = -20;
         }
 
@@ -210,33 +223,50 @@ function draw() {
 
 
     //===Draw UI
-
     if (gameOver || gameBeginning) {
 
+        //===Draw title
         textSize(objSize * 1.5);
         fill(Koji.config.colors.titleColor);
         textAlign(CENTER, TOP);
-        text(Koji.config.strings.title, width / 2, height * 0.2);
+        text(Koji.config.strings.title, width / 2, objSize * 2);
 
+        //===Draw instructions
+        textSize(objSize * 0.8);
+        fill(Koji.config.colors.instructionsColor);
+        textAlign(CENTER, TOP);
+        text(Koji.config.strings.instructions1, width / 2, objSize * 5);
+
+        textSize(objSize * 0.8);
+        fill(Koji.config.colors.instructionsColor);
+        textAlign(CENTER, TOP);
+        text(Koji.config.strings.instructions2, width / 2, objSize * 6);
+
+        textSize(objSize * 0.8);
+        fill(Koji.config.colors.instructionsColor);
+        textAlign(CENTER, TOP);
+        text(Koji.config.strings.instructions3, width / 2, objSize * 7);
+
+
+        //===
         playButton.render();
 
-        if(!gameBeginning){
+        //===Draw score text after the game
+        if (!gameBeginning) {
             textSize(objSize);
             fill(Koji.config.colors.scoreColor);
             textAlign(CENTER, TOP);
             text(Koji.config.strings.scoreText + " " + score, width / 2, playButton.pos.y + objSize * 4);
-
-
-            
         }
 
-        if(highscoreGained){
+        //===Notify the player if they got a new high score, or if they haven't, show the previous high score
+        if (highscoreGained) {
             textSize(objSize * 1.5);
             fill(Koji.config.colors.highscoreColor);
             textAlign(CENTER, TOP);
             text(Koji.config.strings.highscoreGainedText, width / 2, playButton.pos.y + objSize * 8);
-        }else{
-            
+        } else {
+
             textSize(objSize * 1.2);
             fill(Koji.config.colors.highscoreColor);
             textAlign(CENTER, TOP);
@@ -248,116 +278,97 @@ function draw() {
         //===Smoothly update velocity to desired
         enemiesVelocity = Smooth(enemiesVelocity, enemiesDesiredVelocity, 16);
 
+        //===If there are no enemies left, start a new wave
         if (enemies.length <= 0) {
-            if(!nextWaveReady){
+            if (!nextWaveReady) {
                 newWave();
             }
-            
-            
-            
-           
         }
-
-        
-       
 
         ship.update();
         ship.render();
 
+        //===Update lasers
         for (let i = 0; i < lasers.length; i++) {
             lasers[i].update();
             lasers[i].render();
 
+            //===Check collision with enemies
             for (let j = 0; j < enemies.length; j++) {
-
                 if (lasers[i].owner == 0) {
                     if (lasers[i].hit(enemies[j])) {
-
                         enemies[j].getDamaged();
-                        //explosions.push(new Explosion(lasers[i].pos, 0)); //create an explosion
-
                         lasers[i].removable = true;
-
                     }
                 }
-
             }
 
+            //===Check collision with player
             if (lasers[i].owner == 1) {
                 if (lasers[i].hit(ship)) {
 
                     lives--;
-                    ship.pos.y += objSize/2;
+                    ship.pos.y += objSize / 2; /*push back the ship*/
                     PlaySound(sndLoseGame);
-
                     lasers[i].removable = true;
                     explosions.push(new Explosion(lasers[i].pos, 0)); //create an explosion
 
                     if (lives <= 0) {
                         gameOver = true;
                         PlaySound(sndLoseGame);
-
                         checkHighscore();
-                    }else{
-                         
                     }
-
                 }
             }
-
         }
 
+        //===Update enemies
         for (let i = 0; i < enemies.length; i++) {
             enemies[i].update();
-
             enemies[i].render();
 
         }
 
-        
         //===Update all explosions===//
         for (var i = explosions.length - 1; i >= 0; i--) {
             explosions[i].update();
             explosions[i].render();
 
-            if(explosions[i].timer <= 0){
+            if (explosions[i].timer <= 0) {
                 explosions.splice(i, 1); //remove them after their timer has elapsed
             }
         }
 
-        if(enemies.length > 0){
+        //===Check if enemies should change direction if on the edge of the screen
+        if (enemies.length > 0) {
             checkEnemiesPosition();
         }
-        
 
-
-      
-
-        cleanUp();
-
+        cleanUp(); //===Remove all objects scheduled for removal
 
         //===Ingame UI
-        for (let i = 0; i < lives; i++) {
 
-            image(imgLife, width / 2 - objSize * arenaSize / 2 + (objSize * 1.1) * i + objSize/2, objSize / 3, objSize, objSize);
+        //===Draw lives
+        for (let i = 0; i < lives; i++) {
+            image(imgLife, width / 2 - objSize * arenaSize / 2 + (objSize * 1.1) * i + objSize / 2, objSize / 3, objSize, objSize);
         }
 
-        //Score draw
-        let scoreX = width / 2 + objSize * arenaSize / 2 - objSize/2;
+        //===Score draw
+        let scoreX = width / 2 + objSize * arenaSize / 2 - objSize / 2;
         let scoreY = objSize / 3;
         textSize(objSize);
         fill(Koji.config.colors.scoreColor);
         textAlign(RIGHT, TOP);
         text(score, scoreX, scoreY);
 
-
-        if(waveAnnouncer){
+        //===Update wave announcer
+        if (waveAnnouncer) {
             waveAnnouncer.update();
             waveAnnouncer.render();
 
-            if(waveAnnouncer.lifetime <= 0){
+            if (waveAnnouncer.lifetime <= 0) {
                 waveAnnouncer = 0;
-                
+
             }
         }
 
@@ -369,14 +380,9 @@ function draw() {
 
 }
 
-function spawnStar(){
-    let starX = random() * width;
-    let starY = -20;
-    stars.push(new Star(starX, starY));
-}
-
-function spawnStarStart(){
-    for(let i = 0; i < starCount; i++){
+//===Spawn stars across the screen
+function spawnStarStart() {
+    for (let i = 0; i < starCount; i++) {
         let starX = random() * width;
         let starY = random() * height;
         stars.push(new Star(starX, starY));
@@ -387,28 +393,24 @@ function spawnStarStart(){
 //===Remove all objects that should be removed
 function cleanUp() {
     for (let i = 0; i < enemies.length; i++) {
+        //===Enemies die
         if (enemies[i].health <= 0) {
             explosions.push(new Explosion(enemies[i].pos, enemies[i].type + 1)); //create an explosion
             score += round(enemies[i].scoreGain * calculateScoreGain());
             PlaySound(sndSplat);
             enemies.splice(i, 1);
-
         }
-
     }
 
     for (let i = 0; i < lasers.length; i++) {
-
         if (lasers[i].removable) {
             lasers.splice(i, 1);
-
         }
-
     }
 }
 
-function checkHighscore(){
-    if(score > highScore){
+function checkHighscore() {
+    if (score > highScore) {
         highscoreGained = true;
         highscore = score;
 
@@ -436,7 +438,7 @@ function checkEnemiesPosition() {
     if (leftmostEnemy.pos.x <= leftCheck) {
         setEnemyVelocity(enemiesMaxSpeed);
     }
-    
+
     if (rightmostEnemy.pos.x >= rightCheck) {
         setEnemyVelocity(-enemiesMaxSpeed);
     }
@@ -451,29 +453,19 @@ function setEnemyVelocity(value) {
 
 //===Handle input
 function keyPressed() {
-
     if (!gameOver && !gameBeginning) {
         if (keyCode == RIGHT_ARROW) {
-           
-             ship.direction = 1;
-                
-           
-            
+            ship.direction = 1;
         } else
             if (keyCode == LEFT_ARROW) {
-               
                 ship.direction = -1;
-              
             }
-
 
         if (key == ' ') {
             ship.firing = true;
             ship.fireCooldownTimer = 0;
-
         }
     }
-
 }
 
 function keyReleased() {
@@ -487,7 +479,6 @@ function keyReleased() {
 
         if (key == ' ') {
             ship.firing = false;
-
         }
 
     }
@@ -506,29 +497,22 @@ function touchStarted() {
     if (!gameOver && !gameBeginning) {
         touchStartX = mouseX;
 
-       
         touching = true;
 
         ship.firing = true;
         ship.fireCooldownTimer = 0;
     }
 
-    if(soundButton.checkClick()){
+    if (soundButton.checkClick()) {
         toggleSound();
     }
 }
 
 function touchEnded() {
 
-    
-
-
-
     if (!gameOver && !gameBeginning) {
 
         ship.direction = 0;
-
-    } else {
 
     }
 
@@ -537,6 +521,7 @@ function touchEnded() {
     touching = false;
 }
 
+//===Initialize/reset the game
 function init() {
     gameOver = false;
     lasers = [];
@@ -547,6 +532,8 @@ function init() {
     score = 0;
     waveCount = 0;
 
+    enemyRows = startingEnemyRows;
+
     lives = startingLives;
 
     ship = new Ship();
@@ -555,90 +542,79 @@ function init() {
 
 }
 
-function newWave(){
+//===Get a new wave ready
+function newWave() {
 
-    if(lives < maxLives && waveCount > 1 && waveCount % bossWave == 0){
+    //===Get a life after every boss wave
+    if (lives < maxLives && waveCount > 1 && waveCount % bossWave == 0) {
         lives++;
     }
 
     waveCount++;
 
-     PlaySound(sndWavePass);
+    PlaySound(sndWavePass);
 
-
-    
+    //===Make a new wave announcer with proper text
     let waveTitle = "Wave " + waveCount;
-    if(waveCount % bossWave == 0){
+    if (waveCount % bossWave == 0) {
         waveTitle = "BOSS";
     }
 
     waveAnnouncer = new WaveAnnouncer(waveTitle);
 
     nextWaveReady = true;
-    
-    setTimeout(function(){
 
-        
+    setTimeout(function () {
+
         //Every X wave is a boss fight
-        if(waveCount % bossWave == 0){
+        if (waveCount % bossWave == 0) {
             SpawnBoss();
-            
-            
-        }else{
-
+        } else {
             SpawnEnemies();
-            
-            if(enemyRows < maxEnemyRows){
+            if (enemyRows < maxEnemyRows) {
                 enemyRows++;
             }
-            
-            
-        
         }
 
         nextWaveReady = false;
     }, waveDelay);
-    
 
 }
 
-
-
-
+//===Player ship
 function Ship() {
     this.pos = createVector(width / 2, shipY);
     this.img = imgShip;
 
     this.velocity = 0;
     this.maxVelocity = objSize / 2;
-  
-    this.direction = 0;
 
-    this.firing = false;
+    this.direction = 0; //=== 0-stop, 1-move right, 2-move left
+
+    this.firing = false; //whether the ship should currently fire or not
     this.fireCooldownTimer = 0;
 
-    this.sizeMod = 1;
+    this.sizeMod = 1; //size modifier => sizeMod * objSize
 
     this.render = function () {
-
         image(this.img, this.pos.x - objSize / 2, this.pos.y - objSize / 2, objSize, objSize);
     }
 
     this.update = function () {
-
         if (touching) {
             this.handleTouch();
         }
         this.move();
 
+        //===Move back to original Y after pushback
         if (this.pos.y != shipY) {
             this.pos.y = Smooth(this.pos.y, shipY, 10);
         }
 
-        this.fireCooldownTimer -= 1/frameRate();
+        this.fireCooldownTimer -= 1 / frameRate(); /*update fire cooldown timer*/
 
-        if(this.firing){
-            if(this.fireCooldownTimer < 0){
+        if (this.firing) {
+            if (this.fireCooldownTimer < 0) {
 
                 this.fire();
 
@@ -647,48 +623,46 @@ function Ship() {
         }
     }
 
+
     this.move = function () {
+        //===determine acceleration factor, used for smoother movement and changing directions
         let accelerationFactor = 32;
-        if(this.direction == 0){
+        if (this.direction == 0) {
             accelerationFactor = 20;
         }
-        if(this.direction == 1 && this.velocity < 0){
-        accelerationFactor = 10;
-        }
-        if(this.direction == -1 && this.velocity > 0){
+        if (this.direction == 1 && this.velocity < 0) {
             accelerationFactor = 10;
         }
-        
-       
-
-        this.velocity = Smooth(this.velocity, this.maxVelocity * this.direction, accelerationFactor);
-        
-        if((this.direction == 1 && this.pos.x < width - objSize) || (this.direction == -1 && this.pos.x > objSize)){
-            this.pos.x += this.velocity;
-        }else{
-            this.velocity = 0;
+        if (this.direction == -1 && this.velocity > 0) {
+            accelerationFactor = 10;
         }
 
+        this.velocity = Smooth(this.velocity, this.maxVelocity * this.direction, accelerationFactor); //smoothly update velocity
 
-
+        if ((this.direction == 1 && this.pos.x < width - objSize) || (this.direction == -1 && this.pos.x > objSize)) {
+            this.pos.x += this.velocity;
+        } else {
+            this.velocity = 0;
+        }
     }
 
     this.handleTouch = function () {
 
         //===Clamp movement within screen bounds
         let desiredX = mouseX;
-        if(desiredX > width){
+        if (desiredX > width) {
             desiredX = width;
         }
-        if(desiredX < 0){
+        if (desiredX < 0) {
             desiredX = 0;
         }
 
+        //determine direction based on touch coordinates
         let dir = desiredX - this.pos.x;
 
-        if (dir > 0 && abs(dir) > objSize/4) {
+        if (dir > 0 && abs(dir) > objSize / 4) {
             this.direction = 1;
-        } else if (dir < 0 && abs(dir) > objSize/4) {
+        } else if (dir < 0 && abs(dir) > objSize / 4) {
             this.direction = -1;
         } else {
             this.direction = 0;
@@ -696,6 +670,7 @@ function Ship() {
 
     }
 
+    //===Fire up the LASER
     this.fire = function () {
         lasers.push(new Laser(this.pos.x, this.pos.y - objSize / 2, 0));
         this.pos.y += objSize / 2.5;
@@ -715,7 +690,7 @@ function Laser(x, y, owner) {
     this.maxVelocity = objSize / 2.5;
     this.velocity = 0;
 
-    this.removable = false;
+    this.removable = false; //if true, will get removed in the next frame
 
     if (this.owner == 1) {
         this.img = imgLaserEnemy;
@@ -728,7 +703,7 @@ function Laser(x, y, owner) {
 
         this.velocity = Smooth(this.velocity, this.maxVelocity, 20);
 
-        this.removable = this.offscreen();
+        this.removable = this.offscreen(); //remove if it goes offscreen
 
     }
 
@@ -736,7 +711,6 @@ function Laser(x, y, owner) {
         let size = createVector(objSize / 3, objSize);
 
         image(this.img, this.pos.x - size.x / 2, this.pos.y - size.y / 2, size.x, size.y)
-
     }
 
     //check collision
@@ -745,7 +719,7 @@ function Laser(x, y, owner) {
 
         let distX = this.pos.x - other.pos.x;
         let distY = this.pos.y - other.pos.y;
-       
+
 
         if (abs(distX) < (size.x * 1.75 * other.sizeMod) && abs(distY) < (size.y / 4 * other.sizeMod)) {
             return true;
@@ -782,9 +756,9 @@ function Laser(x, y, owner) {
 //===Type can be 0, 1 or 2 or 3(boss)
 function Enemy(x, y, type) {
     this.desiredY = y;
-   
+
     this.pos = createVector(x, -objSize * 2, y);
-    this.pos.y -= objSize * 200 * (height/y);
+    this.pos.y -= objSize * 200 * (height / y);
     this.type = type;
     this.img = imgEnemy[type];
     this.health = type + 1;
@@ -808,20 +782,17 @@ function Enemy(x, y, type) {
     //===
 
     this.scoreGain = scoreGain1;
-    if(type == 1){
+    if (type == 1) {
         this.scoreGain = scoreGain2;
     }
-    if(type == 2){
+    if (type == 2) {
         this.scoreGain = scoreGain3;
     }
-    if(type == 3){
+    if (type == 3) {
         this.scoreGain = scoreGainBoss;
         this.sizeMod = 10;
         this.health = 50;
     }
-
-   
-    
 
     let startY = this.pos.y;
 
@@ -835,19 +806,17 @@ function Enemy(x, y, type) {
             this.fire();
         }
 
-        if(type == 3){
-            this.bossFirePeriodCooldownTimer -= 1/frameRate();
-            
-            if(this.bossFirePeriodCooldownTimer <= 0){
+        if (type == 3) {
+            this.bossFirePeriodCooldownTimer -= 1 / frameRate();
+
+            if (this.bossFirePeriodCooldownTimer <= 0) {
                 this.bossFiring = true;
-                
             }
-            
 
-            if(this.bossFiring){
-                this.bossFireTimer -= 1/frameRate();
+            if (this.bossFiring) {
+                this.bossFireTimer -= 1 / frameRate();
 
-                if(this.bossFireTimer <= 0){
+                if (this.bossFireTimer <= 0) {
                     this.bossFireTimer = this.bossFirePeriod;
                     this.bossFirePeriodCooldownTimer = this.bossFirePeriodCooldown;
                     this.bossFiring = false;
@@ -860,7 +829,7 @@ function Enemy(x, y, type) {
 
     this.render = function () {
         let size = objSize * this.sizeMod;
-        image(this.img, this.pos.x - size / 2, this.pos.y - size / 2, size , size);
+        image(this.img, this.pos.x - size / 2, this.pos.y - size / 2, size, size);
     }
 
     this.getDamaged = function () {
@@ -868,41 +837,34 @@ function Enemy(x, y, type) {
 
         this.pos.y -= objSize / 2.5;
 
-       
+
 
     }
-
-
 
     this.fire = function () {
         lasers.push(new Laser(this.pos.x, this.pos.y + objSize / 2, 1));
-        this.pos.y -= objSize/4;
+        this.pos.y -= objSize / 4;
     }
 
-
-    
-
+    //===Boss fire handling
     this.bossFireProjectilesCount = 10;
-    this.bossFire = function(){
-        this.bossFireCooldownTimer -= 1/frameRate();
+    this.bossFire = function () {
+        this.bossFireCooldownTimer -= 1 / frameRate();
 
- 
-
-        if(this.bossFireCooldownTimer < 0){
-            for(let i = 0; i < this.bossFireProjectilesCount; i++){
+        if (this.bossFireCooldownTimer < 0) {
+            for (let i = 0; i < this.bossFireProjectilesCount; i++) {
                 let distance = (this.sizeMod * objSize) / this.bossFireProjectilesCount;
-                let laserX = this.pos.x - (this.sizeMod * objSize)/2 + (objSize * i) ;
-                let laserY = this.pos.y + (this.sizeMod * objSize)/6 + objSize * random();
+                let laserX = this.pos.x - (this.sizeMod * objSize) / 2 + (objSize * i);
+                let laserY = this.pos.y + (this.sizeMod * objSize) / 6 + objSize * random();
                 lasers.push(new Laser(laserX, laserY, 1));
             }
-            this.bossFireCooldownTimer = this.bossFireCooldown;
-            //
-        }
-        
-    }
 
+            this.bossFireCooldownTimer = this.bossFireCooldown;
+        }
+    }
 }
 
+//===Spawn enemies in a grid
 function SpawnEnemies() {
     let rows = enemyRows;
     let distance = objSize / 4;
@@ -931,14 +893,22 @@ function SpawnEnemies() {
     }
 }
 
-function SpawnBoss(){
-    enemies.push(new Enemy(width/2, height/2 - objSize * 5, 3));
+function SpawnBoss() {
+    enemies.push(new Enemy(width / 2, height / 2 - objSize * 5, 3));
 }
 
+
+///===Background stars
+/*
+    Makes them a random color
+    When a star moves offscreen, it gets teleported back at the opposite side and starts again
+    Velocity.x is opposite of player's velocity.x and smaller
+
+*/
 function Star(x, y) {
     this.pos = createVector(x, y);
     this.velocity = createVector(0, 0);
-    this.size = random() * objSize/8;
+    this.size = random() * objSize / 8;
 
     this.r = random() * 100 + 155;
     this.g = random() * 100 + 155;
@@ -946,26 +916,26 @@ function Star(x, y) {
     this.a = random() * 90 + 60;
 
     this.speedModifier = random() * 0.1;
-    
+
 
     this.timer = 0;
 
 
     this.update = function () {
-        
+
         this.velocity.x = -ship.velocity * 0.05;
 
-        this.velocity.y = objSize/30;
+        this.velocity.y = objSize / 30;
 
-        this.timer += 1/frameRate();
+        this.timer += 1 / frameRate();
 
         this.pos.add(this.velocity);
 
 
-        
+
     }
 
-    this.render = function(){
+    this.render = function () {
 
         // Set colors
         fill(this.r, this.g, this.b, this.a);
@@ -975,8 +945,8 @@ function Star(x, y) {
         // A rectangle
         //rect(this.pos.x, this.pos.y, this.size.x, this.size.y);
         circle(this.pos.x, this.pos.y, this.size);
-     
-        
+
+
     }
 
     this.offscreen = function () {
@@ -993,7 +963,7 @@ function Star(x, y) {
 }
 
 //type - 0 for player; 1, 2, 3 for enemies; 4 for boss
-function Explosion(pos, type){
+function Explosion(pos, type) {
     this.pos = createVector(pos.x, pos.y);
     this.timer = 0.2; //lifetime of the explosion
     this.a = 1; // alpha/opacity
@@ -1002,31 +972,24 @@ function Explosion(pos, type){
     this.scale = 0.01;
     this.desiredScale = 2;
 
-    if(type > 0){
+    if (type > 0) {
         this.img = imgEnemyExplosion[type - 1];
         this.desiredScale = 2;
     }
 
-    if(type == 4){
+    if (type == 4) {
         this.desiredScale = 10;
     }
 
-    //PlaySound(Koji.config.sounds.explosionSound);
-
-    this.update = function(){
-        //if(this.scale < 1){
-            //this.scale = Smooth(this.scale, 0, 12); //scale up to 1 on create
-            //this.a = Smooth(this.a, 0, 25);
-            this.scale = Smooth(this.scale, this.desiredScale, 5);
-        //    
-       // }
+    this.update = function () {
+        
+        this.scale = Smooth(this.scale, this.desiredScale, 5);
 
         //tick tock
-        this.timer -= 1/frameRate();
-        
+        this.timer -= 1 / frameRate();
     }
 
-    this.render = function(){
+    this.render = function () {
         //draw
         push();
         let sizeX = objSize * this.scale;
@@ -1035,40 +998,33 @@ function Explosion(pos, type){
         translate(this.pos.x, this.pos.y);
         tint(255, 255, 255, 255 * this.a);
         rotate(this.rotate);
-        image(this.img, -sizeX/2, -sizeY/2, sizeX, sizeY);    
+        image(this.img, -sizeX / 2, -sizeY / 2, sizeX, sizeY);
         pop();
     }
 }
 
-function WaveAnnouncer(value){
-    this.pos = createVector(width/2, -objSize * 5);
+//===Text before every wave announcing it
+function WaveAnnouncer(value) {
+    this.pos = createVector(width / 2, -objSize * 5);
     this.value = value;
-
     this.lifetime = 2;
+    this.desiredY = height / 2 - objSize * 2;
 
-    this.desiredY = height/2 - objSize * 2;
-
-    this.update = function(){
+    this.update = function () {
         this.pos.y = Smooth(this.pos.y, this.desiredY, 16);
-
-        this.lifetime -= 1/frameRate();
+        this.lifetime -= 1 / frameRate();
     }
 
-
-    this.render = function(){
+    this.render = function () {
         textSize(objSize * 2);
         fill(Koji.config.colors.waveColor);
         textAlign(CENTER, CENTER);
         text(this.value, this.pos.x, this.pos.y);
     }
 
-
 }
 
-
-
 //====UTILITIES
-
 
 //===Used for playing any sound
 PlaySound = function (src, loop) {
@@ -1080,34 +1036,34 @@ PlaySound = function (src, loop) {
 
 }
 
-function playMusic(){
-    if(!backgroundMusic){
+function playMusic() {
+    if (!backgroundMusic) {
         backgroundMusic = new Audio(Koji.config.sounds.music);
     }
-    
+
     backgroundMusic.loop = loop;
-    backgroundMusic.play(); 
+    backgroundMusic.play();
 }
 
-function disableSound(){
+function disableSound() {
     backgroundMusic.pause();
     backgroundMusic.currentTime = 0;
     soundEnabled = false;
 }
 
-function enableSound(){
+function enableSound() {
     soundEnabled = true;
     playMusic();
 }
 
-function toggleSound(){
-    if(canMute){
+function toggleSound() {
+    if (canMute) {
 
         canMute = false;
-        
-        if(soundEnabled){
+
+        if (soundEnabled) {
             disableSound();
-        }else{
+        } else {
             enableSound();
         }
 
@@ -1115,17 +1071,13 @@ function toggleSound(){
             canMute = true;
         }, 100);
     }
-    
 
 }
 
-
-
-//===Basic Sound button
+//===Basic Sound button with an on/off function
 function SoundButton() {
     this.pos = createVector(50, 50);
     this.size = createVector(objSize, objSize);
-
 
     this.render = function () {
         this.pos.x = width - this.size.x * 1.5;
@@ -1169,8 +1121,6 @@ function PlayButton() {
         this.pos.y = height / 2 - this.size.y / 2;
 
         fill(Koji.config.colors.playButtonColor);
-        //stroke(Koji.config.colors.backgroundColor);
-        //strokeWeight(objSize/12);
         rect(this.pos.x, this.pos.y, this.size.x, this.size.y, objSize / 2);
 
 
@@ -1192,7 +1142,6 @@ function PlayButton() {
             return false;
         }
     }
-
 }
 
 
@@ -1202,7 +1151,7 @@ function PlayButton() {
 
     v - current value
     w - goal value
-    The higher factor, the slower v approaches w.
+    The higher the factor, the slower v approaches w.
 */
 function Smooth(current, goal, factor) {
     return ((current * (factor - 1)) + goal) / factor;
@@ -1218,11 +1167,11 @@ function getFontFamily(ff) {
     return ff.slice(start + 7, end);
 }
 
-
-function calculateScoreGain(){
+//===Adds more score gain for each wave, exponentially
+function calculateScoreGain() {
     let gain = 1;
-    for(let i = 0; i < waveCount - 1; i++){
-        gain += gain * scoreGainModifier/100;
+    for (let i = 0; i < waveCount - 1; i++) {
+        gain += gain * scoreGainModifier / 100;
     }
 
     return gain;
