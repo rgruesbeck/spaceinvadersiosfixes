@@ -22,13 +22,9 @@ let imgLife;
 let imgExplosion;
 let imgEnemyExplosion = [];
 
-
 //===Buttons
 let playButton;
 let soundButton;
-
-
-
 
 //===Score data
 let score = 0;
@@ -256,7 +252,7 @@ function draw() {
             textSize(objSize);
             fill(Koji.config.colors.scoreColor);
             textAlign(CENTER, TOP);
-            text(Koji.config.strings.scoreText + " " + score, width / 2, playButton.pos.y + objSize * 4);
+            text(Koji.config.strings.scoreText + " " + score, width / 2, playButton.pos.y + objSize * 3);
         }
 
         //===Notify the player if they got a new high score, or if they haven't, show the previous high score
@@ -264,13 +260,13 @@ function draw() {
             textSize(objSize * 1.5);
             fill(Koji.config.colors.highscoreColor);
             textAlign(CENTER, TOP);
-            text(Koji.config.strings.highscoreGainedText, width / 2, playButton.pos.y + objSize * 8);
+            text(Koji.config.strings.highscoreGainedText, width / 2, playButton.pos.y + objSize * 6);
         } else {
 
             textSize(objSize * 1.2);
             fill(Koji.config.colors.highscoreColor);
             textAlign(CENTER, TOP);
-            text(Koji.config.strings.highscoreText + " " + highScore, width / 2, playButton.pos.y + objSize * 8);
+            text(Koji.config.strings.highscoreText + " " + highScore, width / 2, playButton.pos.y + objSize * 6);
         }
 
     } else {
@@ -555,9 +551,9 @@ function newWave() {
     PlaySound(sndWavePass);
 
     //===Make a new wave announcer with proper text
-    let waveTitle = "Wave " + waveCount;
+    let waveTitle = Koji.config.strings.waveText + " " + waveCount;
     if (waveCount % bossWave == 0) {
-        waveTitle = "BOSS";
+        waveTitle = Koji.config.strings.bossWaveText;
     }
 
     waveAnnouncer = new WaveAnnouncer(waveTitle);
@@ -1111,14 +1107,14 @@ function SoundButton() {
 
 function PlayButton() {
     this.size = createVector(objSize * 6, objSize * 2);
-    this.pos = createVector(width / 2 - this.size.x / 2, height / 2 - this.size.y / 2 + 24);
+    this.pos = createVector(width / 2 - this.size.x / 2, height / 2 - this.size.y / 2 + objSize * 4);
 
 
     this.label = "Play";
 
     this.render = function () {
         this.pos.x = width / 2 - this.size.x / 2;
-        this.pos.y = height / 2 - this.size.y / 2;
+        this.pos.y = height / 2 - this.size.y / 2 + objSize * 2;
 
         fill(Koji.config.colors.playButtonColor);
         rect(this.pos.x, this.pos.y, this.size.x, this.size.y, objSize / 2);

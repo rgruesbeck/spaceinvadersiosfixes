@@ -63,11 +63,6 @@
           "type": "text"
         },
         {
-          "key": "highScoreText",
-          "name": "High Score Text",
-          "type": "text"
-        },
-        {
           "key": "fontFamily",
           "name": "Font Family",
           "description": "Google fonts link to font to use in the game",
@@ -100,13 +95,13 @@
         {
           "key": "waveText",
           "name": "Wave Text",
-          "description": "Default: 'Wave'",
+          "description": "Wave announcement, followed by a number in-game. Default: 'Wave'",
           "type": "text"
         },
         {
           "key": "bossWaveText",
           "name": "Boss Wave Text",
-          "description": "When the wave is a boss wave",
+          "description": "Wave announcement for a boss wave",
           "type": "text"
         },
         {
