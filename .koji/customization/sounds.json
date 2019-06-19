@@ -35,7 +35,7 @@
         },
         {
           "key": "loseGameSound",
-          "name": "Lose Game Sound",
+          "name": "Lose Life Sound",
           "description": "Played when you lose a life",
           "type": "sound"
         },
