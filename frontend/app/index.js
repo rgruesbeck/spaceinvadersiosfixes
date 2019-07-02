@@ -122,10 +122,11 @@ function preload() {
     imgEnemyExplosion[3] = loadImage(Koji.config.images.enemyExplosionBoss);
 
     //===Load Sounds
-    sndLaser = Koji.config.sounds.laserSound;
-    sndLoseGame = Koji.config.sounds.loseGameSound;
-    sndSplat = Koji.config.sounds.splatSound;
-    sndWavePass = Koji.config.sounds.wavePassSound;
+    sndLaser = loadSound(Koji.config.sounds.laserSound);
+    sndLoseGame = loadSound(Koji.config.sounds.loseGameSound);
+    sndSplat = loadSound(Koji.config.sounds.splatSound);
+    sndWavePass = loadSound(Koji.config.sounds.wavePassSound);
+    backgroundMusic = loadSound(Koji.config.sounds.music);
 
 
     //===Load settings
@@ -194,9 +195,9 @@ function setup() {
 
     spawnStarStart();
 
-    playMusic();
-
-
+    // loop background music
+    backgroundMusic.loop();
+    backgroundMusic.play();
 }
 
 //===Main game loop
@@ -305,13 +306,13 @@ function draw() {
 
                     lives--;
                     ship.pos.y += objSize / 2; /*push back the ship*/
-                    PlaySound(sndLoseGame);
+                    sndLoseGame.play();
                     lasers[i].removable = true;
                     explosions.push(new Explosion(lasers[i].pos, 0)); //create an explosion
 
                     if (lives <= 0) {
                         gameOver = true;
-                        PlaySound(sndLoseGame);
+                        sndLoseGame.play();
                         checkHighscore();
                     }
                 }
@@ -393,7 +394,7 @@ function cleanUp() {
         if (enemies[i].health <= 0) {
             explosions.push(new Explosion(enemies[i].pos, enemies[i].type + 1)); //create an explosion
             score += round(enemies[i].scoreGain * calculateScoreGain());
-            PlaySound(sndSplat);
+            sndSplat.play();
             enemies.splice(i, 1);
         }
     }
@@ -484,7 +485,7 @@ function keyReleased() {
 function touchStarted() {
 
     if (gameOver || gameBeginning) {
-        if (playButton.checkClick()) {
+        if (playButton && playButton.checkClick()) {
             gameBeginning = false;
             init();
         }
@@ -499,7 +500,7 @@ function touchStarted() {
         ship.fireCooldownTimer = 0;
     }
 
-    if (soundButton.checkClick()) {
+    if (soundButton && soundButton.checkClick()) {
         toggleSound();
     }
 }
@@ -512,7 +513,7 @@ function touchEnded() {
 
     }
 
-    ship.firing = false;
+    if (ship) { ship.firing = false; }
 
     touching = false;
 }
@@ -548,7 +549,7 @@ function newWave() {
 
     waveCount++;
 
-    PlaySound(sndWavePass);
+    sndWavePass.play();
 
     //===Make a new wave announcer with proper text
     let waveTitle = Koji.config.strings.waveText + " " + waveCount;
@@ -670,7 +671,7 @@ function Ship() {
     this.fire = function () {
         lasers.push(new Laser(this.pos.x, this.pos.y - objSize / 2, 0));
         this.pos.y += objSize / 2.5;
-        PlaySound(sndLaser);
+        sndLaser.play();
     }
 
 
@@ -1023,33 +1024,19 @@ function WaveAnnouncer(value) {
 //====UTILITIES
 
 //===Used for playing any sound
-PlaySound = function (src, loop) {
-    if (soundEnabled) {
-        var audio = new Audio(src);
-        audio.loop = loop;
-        audio.play();
-    }
-
-}
-
-function playMusic() {
-    if (!backgroundMusic) {
-        backgroundMusic = new Audio(Koji.config.sounds.music);
-    }
-
-    backgroundMusic.loop = loop;
-    backgroundMusic.play();
-}
 
 function disableSound() {
-    backgroundMusic.pause();
-    backgroundMusic.currentTime = 0;
     soundEnabled = false;
+    getAudioContext().suspend();
+
+    // backgroundMusic.pause();
 }
 
 function enableSound() {
     soundEnabled = true;
-    playMusic();
+    getAudioContext().resume();
+
+    // backgroundMusic.play();
 }
 
 function toggleSound() {
